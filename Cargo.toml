@@ -1,0 +1,14 @@
+[package]
+name = "veclite"
+version = "0.1.0"
+edition = "2021"
+authors = ["Pjdur"]
+description = "A lightweight, ergonomic wrapper around Vec<T> that implements Display and provides extra list-like utilities."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/Pjdur/veclite"
+readme = "README.md"
+keywords = ["vec", "display", "wrapper", "utility", "pretty-print"]
+categories = ["data-structures", "rust-patterns", "utility"]
+exclude = ["/target", "*.rs.bk"]
+
+[dependencies]
