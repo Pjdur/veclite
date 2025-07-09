@@ -6,12 +6,12 @@
 //! ## Features
 //! - Implements `Display` for pretty, space-separated formatting
 //! - Utility methods: `.add()`, `.prepend()`, `.remove()`, `.get()`, `.iter()` etc.
-//! - Short alias [`vl`] for ergonomic use, similar to how `vec![]` is used for `Vec<T>`
+//! - Short alias [`Vel`] for ergonomic use, similar to how `vec![]` is used for `Vec<T>`
 //!
 //! ## Example
 //! ```
-//! use veclite::vl;
-//! let mut v = vl::new();
+//! use veclite::Vel;
+//! let mut v = Vel::new();
 //! v.add(10);
 //! v.add(20);
 //! v.prepend(5);
@@ -142,6 +142,21 @@ impl<T> Veclite<T> {
     pub fn iter(&self) -> std::slice::Iter<'_, T> {
         self.0.iter()
     }
+
+    /// Returns a mutable iterator over the elements of the `Veclite`.
+    ///
+    /// # Example
+    /// ```
+    /// let mut v = veclite::Veclite::new();
+    /// v.add(1);
+    /// for x in v.iter_mut() {
+    ///     *x += 1;
+    /// }
+    /// assert_eq!(format!("{}", v), "2");
+    /// ```
+    pub fn iter_mut(&mut self) -> std::slice::IterMut<'_, T> {
+        self.0.iter_mut()
+    }
 }
 
 impl<T: Display> Display for Veclite<T> {
@@ -165,6 +180,52 @@ impl<T: Display> Display for Veclite<T> {
             write!(f, "{}", item)?;
         }
         Ok(())
+    }
+}
+
+// --- IntoIterator implementations ---
+
+impl<T> IntoIterator for Veclite<T> {
+    type Item = T;
+    type IntoIter = std::vec::IntoIter<T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a, T> IntoIterator for &'a Veclite<T> {
+    type Item = &'a T;
+    type IntoIter = std::slice::Iter<'a, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter()
+    }
+}
+
+impl<'a, T> IntoIterator for &'a mut Veclite<T> {
+    type Item = &'a mut T;
+    type IntoIter = std::slice::IterMut<'a, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter_mut()
+    }
+}
+
+// --- Clone implementation ---
+
+impl<T: Clone> Clone for Veclite<T> {
+    /// Clones the `Veclite`, cloning all contained elements.
+    ///
+    /// # Example
+    /// ```
+    /// let mut v = veclite::Veclite::new();
+    /// v.add(1);
+    /// let v2 = v.clone();
+    /// assert_eq!(format!("{}", v2), "1");
+    /// ```
+    fn clone(&self) -> Self {
+        Veclite(self.0.clone())
     }
 }
 
