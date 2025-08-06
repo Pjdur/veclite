@@ -1,9 +1,9 @@
 [package]
 name = "veclite"
-version = "0.2.0"
+version = "1.0.0"
 edition = "2021"
 authors = ["Pjdur"]
-description = "A lightweight, ergonomic wrapper around Vec<T> that implements Display and provides extra list-like utilities."
+description = "A lightweight, ergonomic wrapper around Vec<T> that implements Display"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/Pjdur/veclite"
 readme = "README.md"
