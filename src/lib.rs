@@ -12,7 +12,7 @@
 //!
 //! ## Example
 //! ```
-//! use veclite::{Vel, vel};
+//! use veclite::vel;
 //! let mut v = vel![1, 2, 3];
 //! v.push(4);       // Vec method
 //! v.prepend(0);    // Custom method
@@ -26,7 +26,8 @@ use alloc::vec::Vec;
 use core::fmt::{self, Display, Formatter};
 use core::ops::{Deref, DerefMut};
 
-/// A lightweight wrapper around `Vec<T>` that provides pretty printing and list-like ergonomics.
+/// A lightweight wrapper around `Vec<T>` that implements `Display` for space-separated formatting,
+/// and provides ergonomic list-like utilities.
 ///
 /// Use [`Vel`] for a short alias, and [`vel![]`](macro@vel) for convenient construction.
 #[derive(Debug, PartialEq, Clone, Default)]
@@ -74,7 +75,7 @@ impl<T: Display> Display for Veclite<T> {
             if i > 0 {
                 write!(f, " ")?;
             }
-            write!(f, "{}", item)?;
+            item.fmt(f)?;
         }
         Ok(())
     }
@@ -141,16 +142,18 @@ impl<'a, T> IntoIterator for &'a mut Veclite<T> {
 /// ```
 pub type Vel<T> = Veclite<T>;
 
-/// Macro to construct a `Vel<T>` just like `vec![]`.
+/// Macro to construct a `Vel<T>` just like `vec![]`, including empty construction.
 ///
-/// # Example
+/// # Examples
 /// ```
-/// use veclite::vel;
 /// let v = vel![1, 2, 3];
-/// assert_eq!(format!("{}", v), "1 2 3");
+/// let empty: Vel<i32> = vel![];
 /// ```
 #[macro_export]
 macro_rules! vel {
+    () => {
+        $crate::Vel::new()
+    };
     ($($x:expr),* $(,)?) => {
         $crate::Vel::from(vec![$($x),*])
     };

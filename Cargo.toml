@@ -1,6 +1,6 @@
 [package]
 name = "veclite"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["Pjdur"]
 description = "A lightweight, ergonomic wrapper around Vec<T> that implements Display"

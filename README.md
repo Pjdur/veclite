@@ -21,7 +21,7 @@
 
 ```toml
 [dependencies]
-veclite = "1.0.0"
+veclite = "1.0.1"
 ```
 
 ### Import and use
