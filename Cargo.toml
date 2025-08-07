@@ -10,5 +10,3 @@ readme = "README.md"
 keywords = ["vec", "display", "wrapper", "utility", "pretty-print"]
 categories = ["data-structures", "rust-patterns"]
 exclude = ["/target", "*.rs.bk"]
-
-[dependencies]

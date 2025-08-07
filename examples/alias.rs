@@ -3,7 +3,7 @@ use veclite::Vel;
 fn main() {
     let mut numbers = Vel::new();
     for i in 1..=3 {
-        numbers.add(i);
+        numbers.push(i);
     }
     // Iterate over elements
     for n in numbers.iter() {

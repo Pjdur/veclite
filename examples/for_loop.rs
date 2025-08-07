@@ -2,9 +2,9 @@ use veclite::Vel;
 
 fn main() {
     let mut numbers = Vel::new();
-    numbers.add(1);
-    numbers.add(2);
-    numbers.add(3);
+    numbers.push(1);
+    numbers.push(2);
+    numbers.push(3);
 
     // Using a for loop to iterate by value (consuming the Veclite)
     for n in numbers.clone() {

@@ -1,7 +1,7 @@
 //! # veclite
 //!
 //! A lightweight, ergonomic wrapper around Rust’s `Vec<T>` that implements `Display` for easy printing,
-//! and provides extra list-like utility methods.
+//! and provides extra list-like utility methods. Veclite also does not need `std`, and so can run without an operating system.
 //!
 //! ## Features
 //! - Implements `Display` for space-separated formatting
@@ -19,8 +19,12 @@
 //! println!("{}", v); // prints: 0 1 2 3 4
 //! ```
 
-use std::fmt::{self, Display, Formatter};
-use std::ops::{Deref, DerefMut};
+#![no_std]
+extern crate alloc;
+
+use alloc::vec::Vec;
+use core::fmt::{self, Display, Formatter};
+use core::ops::{Deref, DerefMut};
 
 /// A lightweight wrapper around `Vec<T>` that provides pretty printing and list-like ergonomics.
 ///
@@ -104,7 +108,7 @@ impl<T> From<Vec<T>> for Veclite<T> {
 
 impl<T> IntoIterator for Veclite<T> {
     type Item = T;
-    type IntoIter = std::vec::IntoIter<T>;
+    type IntoIter = alloc::vec::IntoIter<T>;
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
     }
@@ -112,7 +116,7 @@ impl<T> IntoIterator for Veclite<T> {
 
 impl<'a, T> IntoIterator for &'a Veclite<T> {
     type Item = &'a T;
-    type IntoIter = std::slice::Iter<'a, T>;
+    type IntoIter = alloc::slice::Iter<'a, T>;
     fn into_iter(self) -> Self::IntoIter {
         self.0.iter()
     }
@@ -120,7 +124,7 @@ impl<'a, T> IntoIterator for &'a Veclite<T> {
 
 impl<'a, T> IntoIterator for &'a mut Veclite<T> {
     type Item = &'a mut T;
-    type IntoIter = std::slice::IterMut<'a, T>;
+    type IntoIter = alloc::slice::IterMut<'a, T>;
     fn into_iter(self) -> Self::IntoIter {
         self.0.iter_mut()
     }
